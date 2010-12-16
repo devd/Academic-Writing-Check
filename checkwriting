@@ -105,7 +105,7 @@ written";
   $irregulars =~ s/\\//mg;
   $irregulars =~ s/\n//g;
   #DO NOT CHANGE - the $1 and $2 in other parts of the script depend on the ordering of capturing groups
- return '\b(am|are|were|being|is|been|was|be)\\b([\n ]+)(\w+ed|('.$irregulars.'))\b';
+ return '\b(am|are|were|being|is|been|was|be)\b([\n ]+)(\w+ed|('.$irregulars.'))\b';
 }
 
 sub getWeaselRegex{
