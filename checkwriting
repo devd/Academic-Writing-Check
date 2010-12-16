@@ -21,6 +21,14 @@ my ($passive_color,$dup_color,$weasel_color,$def_color)=("\e[1;31m","\e[1;33m","
 my $regex = getPassiveRegex();
 my $regex_w = getWeaselRegex();
 my $filename="";
+
+if($#ARGV==0 and -d $ARGV[0]){
+  my $dirname=shift @ARGV;
+  $dirname =~ s/\/$//;
+  @ARGV=(<$dirname/*tex>);
+}
+
+#use stdin if no file available
 @ARGV=("/dev/stdin") unless @ARGV;
 
 while(($filename=shift @ARGV)){
