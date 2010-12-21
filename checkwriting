@@ -38,9 +38,9 @@ while(($filename=shift @ARGV)){
        $str.=$_;
     }
     close(FILE);
-    my $count = ($str =~ s/$regex/\x{EFFF}$passive_color$1$def_color$2$passive_color$3$def_color\x{EFFF}/ig) if PASSIVE;
-    $count += ($str =~ s/\b(\w+)([\n ]+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3$def_color\x{EFFF}/ig) if DUPS;
-    $count += ($str =~ s/$regex_w/\x{EFFF}$weasel_color$1$def_color\x{EFFF}/ig) if WEASEL;
+    my $count = ($str =~ s/$regex/\x{EFFF}$passive_color$1$def_color$2$passive_color$3$def_color\x{EFFF}/iog) if PASSIVE;
+    $count += ($str =~ s/\b(\w+)([\n ]+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3$def_color\x{EFFF}/iog) if DUPS;
+    $count += ($str =~ s/$regex_w/\x{EFFF}$weasel_color$1$def_color\x{EFFF}/iog) if WEASEL;
     next unless $count;
     my $linenum=0;
     my $extra="";
