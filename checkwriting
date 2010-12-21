@@ -11,15 +11,27 @@ use strict ;
 use warnings;
 
 # maybe use env variables instead 
-use constant PASSIVE => 1;
-use constant DUPS => 1;
-use constant WEASEL => 1;
-
+use constant PASSIVE => 0;
+use constant DUPS => 0;
+use constant WEASEL => 0;
+use constant STRUNK => 1;
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
-my ($passive_color,$dup_color,$weasel_color,$def_color)=("\e[1;31m","\e[1;33m","\e[1;32m","\e[0m");
+my ($passive_color,$dup_color,$weasel_color,$def_color,$strunk_color) = (
+"\e[1;31m",
+"\e[1;33m",
+"\e[1;32m",
+"\e[0m",
+"\e[1;34m",
+);
 
 my $regex = getPassiveRegex();
 my $regex_w = getWeaselRegex();
+my $regex_rule2 = getStrunkRule2();
+my $val = 'red, white and blue';
+#print $term,"\n";
+#print "yay" if $val =~ m/$term/;
+print "hello","\n" if $val =~ m/$regex_rule2/;
+exit;
 my $filename="";
 
 if($#ARGV==0 and -d $ARGV[0]){
@@ -41,6 +53,7 @@ while(($filename=shift @ARGV)){
     my $count = ($str =~ s/$regex/\x{EFFF}$passive_color$1$def_color$2$passive_color$3$def_color\x{EFFF}/ig) if PASSIVE;
     $count += ($str =~ s/\b(\w+)([\n ]+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3$def_color\x{EFFF}/ig) if DUPS;
     $count += ($str =~ s/$regex_w/\x{EFFF}$weasel_color$1$def_color\x{EFFF}/ig) if WEASEL;
+    $count += ($str =~ s/$regex_rule2/$2$strunk_color$3$def_color\x{EFFF}$4/ig) if STRUNK;
     next unless $count;
     my $linenum=0;
     my $extra="";
@@ -122,4 +135,26 @@ sub getWeaselRegex{
 
  #Do not change $1,$2 etc depend on this
  return '\b(many|various|very|fairly|several|extremely|exceedingly|quite|remarkably|few|surprisingly|mostly|largely|huge|tiny|((are|is) a number)|excellent|interestingly|significantly|substantially|clearly|vast|relatively|completely)\b';
+}
+
+sub getStrunkRule2{
+  my $regex= qr{
+    (?:
+#term
+      (?: 
+	(?:[a-z][a-z]+) 
+#word
+	(?:\s*[a-z][a-z]+)
+#end term
+      ) 	
+#the first \s is debatable, but we are working with bad grammar 
+     \s*,\s*	
+    )+
+  }xi;
+
+  print $regex,"\n";
+
+  my $word = '(?:[a-z][a-z]+)';
+  my $term ='(?:'.$word.'(?:[\n ]+'.$word.')*)';
+  return '(?:'.$term.'[\n ]+,)+[\n ]+'.$term.'[\n ]+and[\n ]+'.$term;
 }
