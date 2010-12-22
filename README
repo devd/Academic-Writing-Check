@@ -11,6 +11,9 @@ Ways to call the script :
 cat <file> | ./checkwriting 
 ./checkwriting <directory_with_tex_files>
 
+Command line arguments are --no-<option>, where option is one of : passive, weasel, dups, strunk, abbr.
+Thus --no-abbr means the script won't look for abbreviation errors.
+
 Note in the last case the search for tex files is not recursive and
 if no .tex exists then script will wait for input from stdin
 
