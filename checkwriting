@@ -9,13 +9,12 @@
 
 use strict ;
 use warnings;
+use Getopt::Long;
 
-# maybe use env variables instead 
-use constant PASSIVE => 1;
-use constant DUPS => 1;
-use constant WEASEL => 1;
-use constant STRUNK => 1;
+my %options=( 'passive' => 1,'dups'=>1,'weasel'=>1,'abbr'=>1,'strunk'=>1);
+GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!');
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
+#TODO : Add support for colors on command line
 my ($passive_color,$dup_color,$weasel_color,$strunk_color,$def_color) = (
 "\e[1;31m",
 "\e[1;33m",
@@ -43,10 +42,12 @@ while(($filename=shift @ARGV)){
        $str.=$_;
     }
     close(FILE);
-    my $count = fixPassive() if PASSIVE;
-    $count += fixDups() if DUPS;
-    $count += fixWeasel() if WEASEL;
-    $count += fixStrunk() if STRUNK;
+    my $count=0;
+    $count += fixPassive() if $options{'passive'};
+    $count += fixDups() if $options{'dups'};
+    $count += fixWeasel() if $options{'weasel'};
+    $count += fixStrunk() if $options{'strunk'};
+    $count += fixAbbr() if $options{'abbr'};
     next unless $count;
     my $linenum=0;
     my $extra="";
@@ -130,6 +131,10 @@ sub fixWeasel{
 
 sub fixDups{
 return $str =~ s/\b(\w+)(\s+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3$def_color\x{EFFF}/iog;
+}
+
+sub fixAbbr{
+  return $str =~ s/\b(et\.\s+al\.|et\.\s+al|i\.e)\b/\x{EFFF}$dup_color$1$def_color\x{EFFF}/iog;
 }
 
 sub fixStrunk{
