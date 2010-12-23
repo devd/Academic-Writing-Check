@@ -11,7 +11,7 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my %options=( 'passive' => 1,'dups'=>1,'weasel'=>1,'abbr'=>1,'strunk'=>1);
+my %options=( 'passive' => 1,'dups'=>1,'weasel'=>1,'abbr'=>1,'strunk'=>0);
 GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!');
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
