@@ -11,8 +11,17 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my %options=( 'passive' => 1,'dups'=> 1,'weasel'=> 1,'abbr'=> 1,'strunk'=> 0,'footnote'=>1);
-GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!','footnote!');
+my %options=( 
+  'passive' => 1,
+  'dups'=> 1,
+  'weasel'=> 1,
+  'abbr'=> 1,
+  'strunk'=> 0,
+  'footnote'=>1,
+  'number'=>1,
+  'url' => 1
+  );
+GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!','footnote!','number!','url!');
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
 my ($passive_color,$dup_color,$weasel_color,$strunk_color,$def_color) = (
@@ -37,9 +46,9 @@ my $str='';
 
 while(($filename=shift @ARGV)){
     open FILE,$filename or die "Error opening $filename";
-    $str='';
-    while(<FILE>){
-       $str.=$_;
+    {
+      local $/;
+      $str=<FILE>;
     }
     close(FILE);
     my $count=0;
