@@ -11,8 +11,8 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my %options=( 'passive' => 1,'dups'=>1,'weasel'=>1,'abbr'=>1,'strunk'=>0);
-GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!');
+my %options=( 'passive' => 1,'dups'=> 1,'weasel'=> 1,'abbr'=> 1,'strunk'=> 0,'footnote'=>1);
+GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!','footnote!');
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
 my ($passive_color,$dup_color,$weasel_color,$strunk_color,$def_color) = (
@@ -43,6 +43,8 @@ while(($filename=shift @ARGV)){
     }
     close(FILE);
     my $count=0;
+    $count += ($str =~ s/\b(\d{4,})\b/\x{EFFF}$dup_color$1$def_color\x{EFFF}/go);
+    $count += fixFootnote() if $options{'footnote'};
     $count += fixPassive() if $options{'passive'};
     $count += fixDups() if $options{'dups'};
     $count += fixWeasel() if $options{'weasel'};
@@ -50,6 +52,8 @@ while(($filename=shift @ARGV)){
     $count += fixAbbr() if $options{'abbr'};
     next unless $count;
     my $linenum=0;
+    $filename =~ m/([^\/]*)$/;
+    $filename = $1;
     my $extra="";
     foreach my $line (split("\n",$str)){
       $linenum++;
@@ -57,7 +61,7 @@ while(($filename=shift @ARGV)){
       $line =~ s/\x{EFFF}//g;
       # we can't do this while setting str since that messes up line numbers
       # I am pretty sure this is ok since the % would prevent match across lines
-      next if $line =~ m/^%/;
+      next if $line =~ m/^\s*%/;
       print "$filename:$linenum: $line\n";      
       $extra =1 ;
     }
@@ -141,6 +145,10 @@ sub fixStrunk{
   my $count=0;
   $count += fixStrunkRule2();
   return $count;
+}
+
+sub fixFootnote{
+  return $str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;])/\x{EFFF}$dup_color$1$def_color\x{EFFF}$2\x{EFFF}$dup_color$3$def_color\x{EFFF}/og;
 }
 
 sub fixStrunkRule2{
