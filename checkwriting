@@ -163,7 +163,7 @@ sub fixStrunk{
 }
 
 sub fixFootnote{
-  return $str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;])/\x{EFFF}$dup_color$1$def_color\x{EFFF}$2\x{EFFF}$dup_color$3$def_color\x{EFFF}/og;
+  return $str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;-])/\x{EFFF}$dup_color$1$def_color\x{EFFF}$2\x{EFFF}$dup_color$3$def_color\x{EFFF}/og;
 }
 
 sub fixStrunkRule2{
