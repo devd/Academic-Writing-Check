@@ -70,7 +70,8 @@ while(($filename=shift @files)){
         $filename = $1 ;
     }
     my $extra="";
-    foreach my $line (split("\n",$str)){
+    while($str =~ m/(.+)/g){
+      my $line=$1;
       $linenum++;
       next unless $line =~ m/\x{EFFF}/;
       $line =~ s/\x{EFFF}//g;
