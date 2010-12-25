@@ -25,4 +25,16 @@ The script can be called in multiple ways:
 
 The original idea and code for this came from Matt Might's [blog](http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/)
 
+Here are some other links that might be useful (and might be integrated
+into awc someday):
+
+* [Common Errors in Technical Writing](http://www.ece.ucdavis.edu/~jowens/commonerrors.html) - John Owens , UC Davis
+* [Effective Scientific Electronic Publishing](http://www.cl.cam.ac.uk/~mgk25/publ-tips/) - Markus Kuhn, Cambridge
+* Strunk and White is now [free online](http://www.bartleby.com/141/strunk1.html)
+* [How to write a great research paper](http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf) - Simon Peyton Jones, MSR Cambridge
+
+
+And to put it all in perspective, [Stephen Fry's monologue on Language](http://www.youtube.com/watch?v=J7E-aoXLZGY)
+
+
 
