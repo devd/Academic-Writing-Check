@@ -33,25 +33,25 @@ my ($passive_color,$dup_color,$weasel_color,$strunk_color,$def_color) = (
 );
 
 my $filename="";
-
-if($#ARGV==0 and -d $ARGV[0]){
-  my $dirname=shift @ARGV;
+my @files=@ARGV;
+if($#files==0 and -d $files[0]){
+  my $dirname=shift @files;
   $dirname =~ s/\/$//;
-  @ARGV=(<$dirname/*.tex>);
-  push @ARGV,(<$dirname/*bbl>); 
+  @files= glob("$dirname/*tex $dirname/*bbl");
 }
 
 my $str='';
 #use stdin if no file available
-@ARGV=("/dev/stdin") unless @ARGV;
+@files=("/dev/stdin") unless @files;
 
-while(($filename=shift @ARGV)){
-    open FILE,$filename or die "Error opening $filename";
+while(($filename=shift @files)){
     {
-      local $/;
-      $str=<FILE>;
+    open my $fh,'<',$filename or die "Error opening $filename";
+    local $/;
+    $str=<$fh>;
+    close($fh);
     }
-    close(FILE);
+    
     my $count=0;
     $count += fixURL() if $options{'url'};
     unless($filename =~ m/bbl$/){
@@ -66,8 +66,9 @@ while(($filename=shift @ARGV)){
     }
     next unless $count;
     my $linenum=0;
-    $filename =~ m/([^\/]*)$/;
-    $filename = $1;
+    if($filename =~ m/([^\/]*)$/){
+        $filename = $1 ;
+    }
     my $extra="";
     foreach my $line (split("\n",$str)){
       $linenum++;
@@ -80,7 +81,7 @@ while(($filename=shift @ARGV)){
       $extra =1 ;
     }
     # some spacing from the new file
-    print "\n" if @ARGV and $extra;
+    print "\n" if @files and $extra;
     
 }
 
@@ -197,5 +198,5 @@ sub fixURL{
       [^\s`!()\[\]{};:'".,<>?«»“”‘’]        # not a space or one of these punct chars
     )
   )}x;
-  $str =~ s/(\\url\{[^}]*\})|($regex)/$1 || "\x{EFFF}$dup_color$2$def_color\x{EFFF}"/eog;
+  return $str =~ s/(\\url\{[^}]*\})|($regex)/$1 || "\x{EFFF}$dup_color$2$def_color\x{EFFF}"/eog;
 }
