@@ -2,8 +2,7 @@
 #
 # Author : Devdatta Akhawe  http://www.cs.berkeley.edu/~devdatta 
 #
-#
-# Finds passive, duplicate and weasel words being used
+
 # Original Idea and list of words by Matthew Might
 # http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/
 
@@ -16,19 +15,22 @@ my %options=(
   'dups'=> 1,
   'weasel'=> 1,
   'abbr'=> 1,
-  'strunk'=> 0,
-  'footnote'=>1,
-  'number'=>1,
-  'url' => 1
+  'typography'=>1,
+  'invert'=>0
   );
-GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','strunk!','footnote!','number!','url!');
+GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','typography!','invert');
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
-my ($passive_color,$dup_color,$weasel_color,$strunk_color,$def_color) = (
+if($options{'invert'}){
+  $options{$_}= (($options{$_}+1)%2) foreach (keys %options);
+}
+
+my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$def_color) = (
 "\e[1;31m",
 "\e[1;33m",
 "\e[1;32m",
 "\e[1;35m",
+"\e[1;34m",
 "\e[0m",
 );
 
@@ -53,15 +55,16 @@ while(($filename=shift @files)){
     }
     
     my $count=0;
-    $count += fixURL() if $options{'url'};
-    unless($filename =~ m/bbl$/){
+    if($filename =~ m/bbl$/){
+      #for bbl files only look for URL errors
+      $count += fixURL() if $options{'typography'};
+    }else{
     #spaces since \b on both sides had too many false positives like -,:
-    $count += ($str =~ s/(\s\d{4,}\b)/\x{EFFF}$dup_color$1$def_color\x{EFFF}/go) if $options{'number'};
-    $count += fixFootnote() if $options{'footnote'};
+    $count += fixTypography() if $options{'typography'};
     $count += fixPassive() if $options{'passive'};
     $count += fixDups() if $options{'dups'};
     $count += fixWeasel() if $options{'weasel'};
-    $count += fixStrunk() if $options{'strunk'};
+#     $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
     }
     next unless $count;
@@ -155,7 +158,8 @@ return $str =~ s/\b(\w+)(\s+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3
 }
 
 sub fixAbbr{
-  return $str =~ s/\b(et\.\s+al\.|et\.\s+al|i\.e)\b/\x{EFFF}$dup_color$1$def_color\x{EFFF}/iog;
+  my $c = ($str =~ s/\b((?:et\.\s+al\.|et\.\s+al|i\.e) )/\x{EFFF}$abbr_color$1$def_color\x{EFFF}/og);
+  return $c;
 }
 
 sub fixStrunk{
@@ -164,15 +168,25 @@ sub fixStrunk{
   return $count;
 }
 
-sub fixFootnote{
-  return $str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;-])/\x{EFFF}$dup_color$1$def_color\x{EFFF}$2\x{EFFF}$dup_color$3$def_color\x{EFFF}/og;
+sub fixTypography{
+  my $c= 0;
+  #footnotes look better if started after punctuations
+  $c +=  ($str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;-])/\x{EFFF}$typography_color$1$def_color\x{EFFF}$2\x{EFFF}$typography_color$3$def_color\x{EFFF}/og);
+  #Latex assumes a '.' ends a sentence unless its after a uppercase letter
+  #http://www.ece.ucdavis.edu/~jowens/commonerrors.html
+  $c += ($str =~ s/\b((?:et\sal\.|e\.g\.|i\.e\.) )/\x{EFFF}$typography_color$1<slash escape the space>$def_color\x{EFFF}/og);
+  $c += ($str =~ s/\b([A-Z]\.)/\x{EFFF}$typography_color$1<add a \\\@>$def_color\x{EFFF}/og);
+  $c += ($str =~ s/(\s\d{4,}\b)/\x{EFFF}$typography_color$1$def_color\x{EFFF}/go) if $options{'number'};
+  #URLs should be typeset with \url
+  $c += fixURL();
+  return $c;
 }
 
 sub fixStrunkRule2{
   #broken broken broken
   my $word = qr/[a-z]{2,}/;
   my $words = qr/$word(?:\s+$word)*/;
-  return $str =~ s/(,\s*$words\s*)(?=\s+and\s*$words)/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/goi;
+  return $str =~ s/(,\s*$words\s*)(?=\s+and\s*$words)/\x{EFFF}$dup_color$1$def_color\x{EFFF}/goi;
 }
 
 
@@ -199,5 +213,5 @@ sub fixURL{
       [^\s`!()\[\]{};:'".,<>?«»“”‘’]        # not a space or one of these punct chars
     )
   )}x;
-  return $str =~ s/(\\url\{[^}]*\})|($regex)/$1 || "\x{EFFF}$dup_color$2$def_color\x{EFFF}"/eog;
+  return $str =~ s/(\\url\{[^}]*\})|($regex)/$1 || "\x{EFFF}$typography_color$2$def_color\x{EFFF}"/eog;
 }

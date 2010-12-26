@@ -8,15 +8,15 @@ Currently the script tries to find the following issues:
 -  __dups__    : Duplicate words e.g. 'the the'
 -  __weasel__  : Weasel words like {various, many}
 -  __abbr__    : Wrong abbreviations like i.e and et. al.
--  __footnote__: Footnotes look better when written following punctuation instead of before
--  __number__  : Numbers are usually more readable when grouped into threes using commas
--  __url__     : You always want to typeset URLs via \url{}
+-  __typography__: Common typography errors like \footnotes before a punctuation, numbers without comma, URLs not typeset with \url, and   others.
 
 The script accepts options via the standard UNIX style:
      
      --no-{option} 
      
 where {option} is one of the things in __bold__ in the above list. The script also ignores lines beginning with a % as a helper. It outputs filename and line number with the offending issues marked in color. The colors aren't currently configurable, but you can edit the script for that.
+
+You can also send in a --invert to invert all conditions. Thus --invert --no-abbr will only look for abbr errors
 
 The script can be called in multiple ways:
 *  ./checkwriting <files>
