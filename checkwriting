@@ -20,17 +20,17 @@ if($options{'d'}){
   delete $options{'d'};
 }
 Getopt::Long::Configure('no_pass_through');
-GetOptions( \%options, map {"$_!"} @switch_list);
+GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
 my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
-getBashColor('red'),
-getBashColor('yellow'),
-getBashColor('green'),
-getBashColor('purple'),
-getBashColor('blue'),
-getBashColor('cyan'),
-getBashColor('def'),
+getBashColor($options{'passive_color'},'red'),
+getBashColor($options{'typography_color'},'yellow'),
+getBashColor($options{'weasel_color'},'green'),
+getBashColor($options{'dup_color'},'purple'),
+getBashColor($options{'abbr_color'},'blue'),
+getBashColor($options{'strunk_color'},'cyan'),
+getBashColor($options{'strunk_color'},'def'),
 );
 
 my $filename="";
@@ -233,9 +233,10 @@ sub getBashColor{
   my $color=lc($_[0]||'');
   my $shade='light';
   $shade= 'dark' if $color =~ s/^dark//;
-  return "\e[0m" if $color =~ m/^def/;
+  $color =~ s/^light//;
+  return "\e[00m" if $color =~ m/^def/;
   my $i=0;
-  my %color_hash=map {$_ => $i++} ('black','red','green','yellow','blue','purple','cyan');
-  return 0 unless exists $color_hash{$color} ;
+  my %color_hash=map {$_ => $i++} ('black','red','green','yellow','blue','purple','cyan','white');
+  return getBashColor($_[1]||'def') unless exists $color_hash{$color};
   return "\e[".($shade eq "dark" ? '0' : '1').';3'.$color_hash{$color}.'m';
 }

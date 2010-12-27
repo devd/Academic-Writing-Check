@@ -19,6 +19,15 @@ where {option} is one of the things in __bold__ in the above list. The script al
 
 You can also send in a -d to disable all checks. Checks will need to be explicitly enabled. Thus -d --abbr will only look for abbr errors.
 
+Colors can be specified with --{option}_color={color}, where {option} is
+one of the options above, and {color} is one of
+('black','red','green','yellow','blue','purple','cyan','white'). You can also prefix the color name with dark to get a darker shade.
+
+
+Thus, --passive_color=darkgreen will mark passive words with dark green
+color
+
+
 The script can be called in multiple ways:
 *  ./checkwriting <files>
 *  ./checkwriting <directory> : In this case the script uses all *.tex and *.bbl files in the directory. If it doesn't find any, then it behaves as below
