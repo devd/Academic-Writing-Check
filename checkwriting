@@ -30,9 +30,10 @@ getBashColor($options{'weasel_color'},'green'),
 getBashColor($options{'dup_color'},'purple'),
 getBashColor($options{'abbr_color'},'blue'),
 getBashColor($options{'strunk_color'},'cyan'),
-getBashColor($options{'strunk_color'},'def'),
+getBashColor($options{'def_color'},'def'),
 );
-
+#intialize default color
+print $def_color;
 my $filename="";
 my @files=@ARGV;
 if($#files==0 and -d $files[0]){
@@ -87,6 +88,9 @@ while(($filename=shift @files)){
     print "\n" if @files and $extra;
     
 }
+
+#reset to terminal default
+print getBashColor('def');
 
 sub fixPassive{
   my @irregulars=(
