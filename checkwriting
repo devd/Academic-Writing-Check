@@ -21,18 +21,16 @@ if($options{'d'}){
 }
 Getopt::Long::Configure('no_pass_through');
 GetOptions( \%options, map {"$_!"} @switch_list);
-
-
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
 my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
-"\e[1;31m",
-"\e[1;33m",
-"\e[1;32m",
-"\e[1;35m",
-"\e[1;34m",
-"\e[1;36m",
-"\e[0m",
+getBashColor('red'),
+getBashColor('yellow'),
+getBashColor('green'),
+getBashColor('purple'),
+getBashColor('blue'),
+getBashColor('cyan'),
+getBashColor('def'),
 );
 
 my $filename="";
@@ -229,4 +227,15 @@ sub fixURL{
     )
   )}x;
   return $str =~ s/(\\url\{[^}]*\})|($regex)/$1 || "\x{EFFF}$typography_color$2$def_color\x{EFFF}"/eog;
+}
+
+sub getBashColor{
+  my $color=lc($_[0]||'');
+  my $shade='light';
+  $shade= 'dark' if $color =~ s/^dark//;
+  return "\e[0m" if $color =~ m/^def/;
+  my $i=0;
+  my %color_hash=map {$_ => $i++} ('black','red','green','yellow','blue','purple','cyan');
+  return 0 unless exists $color_hash{$color} ;
+  return "\e[".($shade eq "dark" ? '0' : '1').';3'.$color_hash{$color}.'m';
 }
