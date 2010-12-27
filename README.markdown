@@ -22,6 +22,8 @@ You can also send in a -d to disable all checks. Checks will need to be explicit
 Colors can be specified with --{option}_color={color}, where {option} is
 one of the options above, and {color} is one of
 ('black','red','green','yellow','blue','purple','cyan','white'). You can also prefix the color name with dark to get a darker shade.
+Additionally, you can pass a --def_color={color} to set the color of
+unmarked text, the default is to use your console default.
 
 
 Thus, --passive_color=darkgreen will mark passive words with dark green
