@@ -10,31 +10,28 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my %options=( 
-  'passive' => 1,
-  'dups'=> 1,
-  'weasel'=> 1,
-  'abbr'=> 1,
-  'typography'=>1,
-  );
+my @switch_list = ('passive','dups','weasel','abbr','typography','strunk');
+my %options= map {$_=>1} @switch_list;
 
 Getopt::Long::Configure('pass_through');
 GetOptions( \%options, 'd');
 if($options{'d'}){
   $_ = 0 foreach values %options;
+  delete $options{'d'};
 }
 Getopt::Long::Configure('no_pass_through');
-GetOptions( \%options, 'passive!','dups!','weasel!','abbr!','typography!');
+GetOptions( \%options, map {"$_!"} @switch_list);
 
 
 # Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 #TODO : Add support for colors on command line
-my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$def_color) = (
+my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
 "\e[1;31m",
 "\e[1;33m",
 "\e[1;32m",
 "\e[1;35m",
 "\e[1;34m",
+"\e[1;36m",
 "\e[0m",
 );
 
@@ -68,7 +65,7 @@ while(($filename=shift @files)){
     $count += fixPassive() if $options{'passive'};
     $count += fixDups() if $options{'dups'};
     $count += fixWeasel() if $options{'weasel'};
-#     $count += fixStrunk() if $options{'strunk'};
+    $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
     }
     next unless $count;
@@ -168,7 +165,7 @@ sub fixAbbr{
 
 sub fixStrunk{
   my $count=0;
-  $count += fixStrunkRule2();
+  $count += fixStrunkWords();
   return $count;
 }
 
@@ -185,6 +182,20 @@ sub fixTypography{
   $c += fixURL();
   return $c;
 }
+
+sub fixStrunkWords{
+  my $regex=qr{
+and\/or | anticipate | as \s good \s or \s better \s than | as \s yet | 
+as \s to \s whether | certainly | factor | feature 
+| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaninful(?:ly)? | nice(?:ly)? | 
+one \s of \s the \s most| respective(?:ly)? |
+(?:most|very) \s unique | 
+utilize | very  |
+  \.\s*However
+}x;
+  return $str =~ s/($regex)/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+}
+
 
 sub fixStrunkRule2{
   #broken broken broken
