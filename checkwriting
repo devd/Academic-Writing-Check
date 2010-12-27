@@ -195,7 +195,7 @@ one \s of \s the \s most| respective(?:ly)? |
 utilize | very  |
   \.\s*However
 }x;
-  return $str =~ s/($regex)/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  return $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
 }
 
 
