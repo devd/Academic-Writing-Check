@@ -40,7 +40,8 @@ will mark passive words with dark green color.
 The script can be called in multiple ways:
 
 *  ./checkwriting &lt;files&gt;
-*  ./checkwriting &lt;directory&gt; : In this case the script uses all *.tex and *.bbl files in the directory. If it doesn't find any, then it behaves as below
+*  ./checkwriting &lt;directory&gt; : In this case the script uses all
+*  &#42;.tex and &#42;.bbl files in the directory. If it doesn't find any, then it behaves as below
 *  ./checkwriting : With no files, the script waits for input on STDIN.
 
 The original idea and code for this came from Matt Might's [blog](http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/)
