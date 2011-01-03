@@ -38,6 +38,7 @@ will mark passive words with dark green color.
 
 
 The script can be called in multiple ways:
+
 *  ./checkwriting <files>
 *  ./checkwriting <directory> : In this case the script uses all *.tex and *.bbl files in the directory. If it doesn't find any, then it behaves as below
 *  ./checkwriting : With no files, the script waits for input on STDIN.
