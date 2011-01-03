@@ -5,7 +5,7 @@ This script attempts to find common errors in academic writings. This is focused
 Currently the script tries to find the following issues:    
 
 -  __passive__ : Passive voice
--  __dups__    : Duplicate words e.g. 'the the'
+-  __dups__    : Duplicate words: 'the the' across 2 lines
 -  __weasel__  : Weasel words like {various, many}
 -  __abbr__    : Wrong abbreviations like i.e and et. al.
 -  __typography__: Common typography errors like \footnotes before a punctuation, numbers without comma, URLs not typeset with \url, and   others.

@@ -2,12 +2,13 @@ this is an example test file for the
 the academic writing scripts. It is hoped that
 all these lines shall be clearly printed.
 i.e et al.
-
 http://www.google.com/
 \url{http://not.this.com}
-3443
-4,333
+3443 marked
+4,333 unmarked
 \footnote{blah blah2}.
 .\footnote{asd}
 as yet
 interestingly
+there are things, e.g this that are marked
+but others,e.g., are not marked.
