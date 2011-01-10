@@ -167,7 +167,7 @@ return $str =~ s/\b(\w+)(\s+)(\1)\b/\x{EFFF}$dup_color$1$def_color$2$dup_color$3
 }
 
 sub fixAbbr{
-  my $c = ($str =~ s/\b((?:et\.\s+al\.|et\.\s+al|i\.e) )/\x{EFFF}$abbr_color$1$def_color\x{EFFF}/og);
+  my $c = ($str =~ s/\b(et\.\s+al|i\.e(?!\.)|et\s+al(?!\.))\b/\x{EFFF}$abbr_color$1$def_color\x{EFFF}/og);
   $c += ($str =~ s/\b(e\.g\.(?!,)|e\.g(?!\.))/\x{EFFF}$abbr_color$1$def_color\x{EFFF}/og);
   return $c;
 }
