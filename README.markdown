@@ -15,7 +15,7 @@ The script accepts options via the standard UNIX style:
      
      --no-{option} 
      
-where {option} is one of the things in __bold__ in the above list. The script also ignores lines beginning with a % as a helper. It outputs filename and line number with the offending issues marked in color. The colors aren't currently configurable, but you can edit the script for that.
+where {option} is one of the things in __bold__ in the above list. The script also ignores lines beginning with a % as a helper. It outputs filename and line number with the offending issues marked in color.
 
 You can also send in a -d to disable all checks. Checks will need to be explicitly enabled. Thus -d --abbr will only look for abbr errors.
 
