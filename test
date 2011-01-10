@@ -6,8 +6,8 @@ http://www.google.com/
 \url{http://not.this.com}
 3443 marked
 4,333 unmarked
-\footnote{blah blah2}.
-.\footnote{asd}
+\footnote{blah {\textit{blah}}2}.
+.\footnote{as {\textit{in italics}}d}
 as yet
 interestingly
 there are things, e.g this that are marked

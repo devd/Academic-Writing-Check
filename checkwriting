@@ -21,8 +21,6 @@ if($options{'d'}){
 }
 Getopt::Long::Configure('no_pass_through');
 GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
-# Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
-#TODO : Add support for colors on command line
 my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
 getBashColor($options{'typography_color'},'yellow'),
@@ -45,6 +43,12 @@ if($#files==0 and -d $files[0]){
 my $str='';
 #use stdin if no file available
 @files=("/dev/stdin") unless @files;
+
+#HACK for <5.10
+my $LevelN;
+if($] < 5.010){
+  $LevelN = qr/ (?> [^{}]+ | \{ (??{ $LevelN }) \} )* /x;
+}
 
 while(($filename=shift @files)){
     {
@@ -175,7 +179,13 @@ sub fixStrunk{
 sub fixTypography{
   my $c= 0;
   #footnotes look better if started after punctuations
-  $c +=  ($str =~ s/(\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;-])/\x{EFFF}$typography_color$1$def_color\x{EFFF}$2\x{EFFF}$typography_color$3$def_color\x{EFFF}/og);
+  if($] >= 5.010){
+    my $regex = '(\\\\footnote)(\{(?:(?>[^{}]+)|(?2))+\})([.,:=;-])';
+    $c +=  ($str =~ s/$regex/\x{EFFF}$typography_color$1$def_color\x{EFFF}$2\x{EFFF}$typography_color$3$def_color\x{EFFF}/og);
+  }else{
+  $c+=($str =~ s/(\\footnote)(\{$LevelN\})([.,:=;-])/\x{EFFF}$typography_color$1$def_color\x{EFFF}$2\x{EFFF}$typography_color$3$def_color\x{EFFF}/og);
+  }
+
   #Latex assumes a '.' ends a sentence unless its after a uppercase letter
   #http://www.ece.ucdavis.edu/~jowens/commonerrors.html
   $c += ($str =~ s/\b((?:et\sal\.|i\.e\.) )/\x{EFFF}$typography_color$1<slash escape the space>$def_color\x{EFFF}/og);
@@ -236,6 +246,7 @@ sub fixURL{
 }
 
 sub getBashColor{
+# Color codes are at http://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
   my $color=lc($_[0]||'');
   my $shade='light';
   $shade= 'dark' if $color =~ s/^dark//;
