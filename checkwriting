@@ -19,9 +19,8 @@ if($options{'d'}){
   $_ = 0 foreach values %options;
   delete $options{'d'};
 }
-$options{'ignorecomment'}=0;
 Getopt::Long::Configure('no_pass_through');
-GetOptions( \%options,'ignorecomment!', 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
+GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
 my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
 getBashColor($options{'typography_color'},'yellow'),
@@ -59,7 +58,7 @@ while(($filename=shift @files)){
     close($fh);
     }
     
-    $str =~ s/([^\\])%.*$/$1/mg if $options{'ignorecomment'};
+    $str =~ s/([^\\])%.*$/$1/mg ;
     my $count=0;
     if($filename =~ m/bbl$/){
       #for bbl files only look for URL errors
