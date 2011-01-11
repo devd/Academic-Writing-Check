@@ -79,7 +79,8 @@ while(($filename=shift @files)){
         $filename = $1 ;
     }
     my $extra="";
-    foreach my $line (split "\n",$str){
+    open my $fh,'<:utf8',\$str or die $!;
+    while(my $line= <$fh>){
       $linenum++;
       next unless $line =~ m/\x{EFFF}/;
       $line =~ s/\x{EFFF}//g;
@@ -87,9 +88,10 @@ while(($filename=shift @files)){
       # I am pretty sure this is ok since the % would prevent match across lines
       # this is moot if ignorecomment is turned on
       next if $line =~ m/^\s*%/;
-      print "$filename:$linenum: $line\n";      
+      print "$filename:$linenum: $line";      
       $extra =1 ;
     }
+    close $fh;
     # some spacing from the new file
     print "\n" if @files and $extra;
     
