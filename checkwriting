@@ -59,7 +59,7 @@ while(($filename=shift @files)){
     close($fh);
     }
     
-    $str =~ s/([^\\\n])%.*$/$1/mg if $options{'ignorecomment'};
+    $str =~ s/([^\\])%.*$/$1/mg if $options{'ignorecomment'};
     my $count=0;
     if($filename =~ m/bbl$/){
       #for bbl files only look for URL errors
@@ -79,13 +79,13 @@ while(($filename=shift @files)){
         $filename = $1 ;
     }
     my $extra="";
-    while($str =~ m/(.+)/g){
-      my $line=$1;
+    foreach my $line (split "\n",$str){
       $linenum++;
       next unless $line =~ m/\x{EFFF}/;
       $line =~ s/\x{EFFF}//g;
       # we can't do this while setting str since that messes up line numbers
       # I am pretty sure this is ok since the % would prevent match across lines
+      # this is moot if ignorecomment is turned on
       next if $line =~ m/^\s*%/;
       print "$filename:$linenum: $line\n";      
       $extra =1 ;

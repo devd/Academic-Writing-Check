@@ -15,4 +15,7 @@ but others,e.g., are not marked.
 also , ignore comments %e.g
 but not esc \%e.g
 %and comments starting with a %
-various
+errors across comments are
+%passive voice below
+marked
+for various reasons, this should be line 21
