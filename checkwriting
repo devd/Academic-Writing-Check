@@ -34,6 +34,12 @@ getBashColor($options{'def_color'},'def'),
 print $def_color;
 my $filename="";
 my @files=@ARGV;
+$options{'diffmode'}=0;
+if(not @files){
+  #There are no files switch to diff output handling
+  $options{'diffmode'}=1;
+}
+  
 if($#files==0 and -d $files[0]){
   my $dirname=shift @files;
   $dirname =~ s/\/$//;
@@ -57,7 +63,12 @@ while(($filename=shift @files)){
     $str=<$fh>;
     close($fh);
     }
-    
+    if($options{'diffmode'}){
+      $str =~ s/^-.*$//mg;
+      $str =~ s/^\+//mg;
+      $str =~ s/^@@.*$//mg;
+      $filename='diff_additions';
+    }
     $str =~ s/([^\\])%.*$/$1/mg ;
     my $count=0;
     if($filename =~ m/bbl$/){
