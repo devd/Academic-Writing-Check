@@ -10,7 +10,7 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my @switch_list = ('passive','dups','weasel','abbr','typography','strunk');
+my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','common');
 my %options= map {$_=>1} @switch_list;
 
 Getopt::Long::Configure('pass_through');
@@ -21,13 +21,14 @@ if($options{'d'}){
 }
 Getopt::Long::Configure('no_pass_through');
 GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
-my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
+my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$common_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
 getBashColor($options{'typography_color'},'yellow'),
 getBashColor($options{'weasel_color'},'green'),
 getBashColor($options{'dup_color'},'purple'),
 getBashColor($options{'abbr_color'},'blue'),
 getBashColor($options{'strunk_color'},'cyan'),
+getBashColor($options{'common_color'},'darkyellow'),
 getBashColor($options{'def_color'},'def'),
 );
 #intialize default color
@@ -82,6 +83,7 @@ while(($filename=shift @files)){
     $count += fixWeasel() if $options{'weasel'};
     $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
+    $count += fixCommonTypos() if $options{'common'};
     }
     next unless $count;
     my $linenum=0;
@@ -232,6 +234,17 @@ sub fixStrunkRule2{
   return $str =~ s/(,\s*$words\s*)(?=\s+and\s*$words)/\x{EFFF}$dup_color$1$def_color\x{EFFF}/goi;
 }
 
+sub fixCommonTypos{
+  my $c = 0;
+
+  # "larger that" instead of "larger than"
+  my $regex = '\b(\w+er|more|less)(\s+)(that)\b';
+  $c += ($str =~ s/$regex/\x{EFFF}$common_color$1$def_color$2$common_color$3$def_color\x{EFFF}/goi);
+  # "more ugly that" instead of "more ugly than"
+  $regex = '\b(more|less|fewer)(\s+)(\w*)(\s+)(that)\b';
+  $c += ($str =~ s/$regex/\x{EFFF}$common_color$1$def_color$2$common_color$3$def_color$4$common_color$5$def_color\x{EFFF}/goi);
+  return $c;
+}
 
 sub fixURL{
   #http://daringfireball.net/2010/07/improved_regex_for_matching_urls

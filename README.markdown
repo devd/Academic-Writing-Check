@@ -10,6 +10,7 @@ Currently the script tries to find the following issues:
 -  __abbr__    : Wrong abbreviations like i.e and et. al., colored blue by default
 -  __typography__: Common typography errors like \footnotes before a punctuation, numbers without comma, URLs not typeset with \url, and others. colored yellow default
 - __strunk__ : Issues that Strunk and White refer to in their classic. Currently, only has a sublist of words from Chapter IV. colored cyan by default.
+- __common__ : Common spelling errors that spellcheck won't catch, such as 'larger that' instead of 'larger than'. colored darkyellow by default.
 
 The script accepts options via the standard UNIX style:
      
