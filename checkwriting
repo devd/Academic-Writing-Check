@@ -10,7 +10,7 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','common');
+my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','common', 'case');
 my %options= map {$_=>1} @switch_list;
 
 Getopt::Long::Configure('pass_through');
@@ -21,7 +21,7 @@ if($options{'d'}){
 }
 Getopt::Long::Configure('no_pass_through');
 GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
-my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$common_color,$def_color) = (
+my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$common_color,$case_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
 getBashColor($options{'typography_color'},'yellow'),
 getBashColor($options{'weasel_color'},'green'),
@@ -29,6 +29,7 @@ getBashColor($options{'dup_color'},'purple'),
 getBashColor($options{'abbr_color'},'blue'),
 getBashColor($options{'strunk_color'},'cyan'),
 getBashColor($options{'common_color'},'darkyellow'),
+getBashColor($options{'case_color'},'darkpurple'),
 getBashColor($options{'def_color'},'def'),
 );
 #intialize default color
@@ -84,6 +85,7 @@ while(($filename=shift @files)){
     $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
     $count += fixCommonTypos() if $options{'common'};
+    $count += fixCase() if $options{'case'};
     }
     next unless $count;
     my $linenum=0;
@@ -243,6 +245,25 @@ sub fixCommonTypos{
   # "more ugly that" instead of "more ugly than"
   $regex = '\b(more|less|fewer)(\s+)(\w*)(\s+)(that)\b';
   $c += ($str =~ s/$regex/\x{EFFF}$common_color$1$def_color$2$common_color$3$def_color$4$common_color$5$def_color\x{EFFF}/goi);
+  return $c;
+}
+
+sub fixCase {
+  my $c = 0;
+
+  # bad Hertz units, e.g., 'gHz' should be 'GHz'
+  my @badHzPrefix=("K[Hh][zZ]", "m[Hh][zZ]", "g[Hh][zZ]", "t[Hh][zZ]");
+  my @badHzSuffix=("[kMGT]hz", "[kMGT]HZ", "[kMGT]hZ");
+
+  # improperly improper nouns
+  my @proper = ("faraday",	# Faraday was a person
+	  'bloom\s+filt\w*',	# Bloom filters named after a person
+	  "wifi", "WiFi", "Wifi", "wi-fi", "Wi-fi"  # It's Wi-Fi
+  );
+
+  my $regex = '\b('.join('|',@badHzPrefix).'|'.join('|',@badHzSuffix).'|'.join('|',@proper).')\b';
+  $c += ($str =~ s/$regex/\x{EFFF}$case_color$1$def_color\x{EFFF}/go);
+
   return $c;
 }
 
