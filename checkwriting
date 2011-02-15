@@ -111,6 +111,15 @@ while(($filename=shift @files)){
     
 }
 
+print "\n";
+print $passive_color,'PASSIVE VOICE',"   " if $options{'passive'};
+print $typography_color,'TYPOGRAPHY ERRORS',"   " if $options{'typography'};
+print $weasel_color,'WEASEL WORDS',"   " if $options{'weasel'};
+print $dup_color,'DUPLICATES',"   " if $options{'dups'};
+print $strunk_color,'STRUNK AND WHITE',"   " if $options{'strunk'};
+print $abbr_color,'ABBR' if $options{'abbr'};
+print "\n";
+
 #reset to terminal default
 print getBashColor('def');
 
@@ -222,10 +231,11 @@ as \s to \s whether | certainly | factor | feature
 one \s of \s the \s most| respective(?:ly)? |
 (?:most|very) \s unique | 
 utilize | very  | the fact that |
-  [\.\?]\s*However |
 rather | little | pretty #from the last chapter
 }x;
-  return $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  my $c = $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  $c += $str =~ s/([.?]\s*However)/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  return $c;
 }
 
 

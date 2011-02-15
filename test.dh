@@ -1,0 +1,25 @@
+this is an example test file for the
+the academic writing scripts. It is hoped that
+all these lines shall be clearly printed.
+i.e et al.
+http://www.google.com/
+\url{http://not.this.com}
+3443 marked
+4,333 unmarked
+\footnote{blah {\textit{blah}}2}.
+.\footnote{as {\textit{in italics}}d}
+as yet
+interestingly
+there are things, e.g this that are marked
+but others,e.g., are not marked.
+also , ignore comments %e.g
+but not esc \%e.g
+%and comments starting with a %
+errors across comments are
+%passive voice below
+marked
+for various reasons, this should be line 21
+the next break should be colored.
+However, it is not detected because of the passive voice on line 22.
+ However, this one is. And the color wraps incorrectly.
+
