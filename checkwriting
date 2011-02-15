@@ -107,6 +107,14 @@ while(($filename=shift @files)){
     
 }
 
+print "\n";
+print $passive_color,'PASSIVE VOICE',"   " if $options{'passive'};
+print $typography_color,'TYPOGRAPHY ERRORS',"   " if $options{'typography'};
+print $weasel_color,'WEASEL WORDS',"   " if $options{'weasel'};
+print $dup_color,'DUPLICATES',"   " if $options{'dups'};
+print $strunk_color,'STRUNK AND WHITE',"   " if $options{'strunk'};
+print $abbr_color,'ABBR',"\n" if $options{'abbr'};
+
 #reset to terminal default
 print getBashColor('def');
 
@@ -214,11 +222,11 @@ sub fixStrunkWords{
   my $regex=qr{ #initially from the  chapter IV (
 and\/or | anticipate | as \s good \s or \s better \s than | as \s yet | 
 as \s to \s whether | certainly | factor | feature 
-| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaninful(?:ly)? | nice(?:ly)? | 
+| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaningful(?:ly)? | nice(?:ly)? | 
 one \s of \s the \s most| respective(?:ly)? |
 (?:most|very) \s unique | 
-utilize | very  |
-  \.\s*However |
+utilize | very  | the fact that |
+  [.?]\s*However |
 rather | little | pretty #from the last chapter
 }x;
   return $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
