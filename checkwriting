@@ -227,10 +227,11 @@ as \s to \s whether | certainly | factor | feature
 one \s of \s the \s most| respective(?:ly)? |
 (?:most|very) \s unique | 
 utilize | very  | the fact that |
-  [.?]\s*However |
 rather | little | pretty #from the last chapter
 }x;
-  return $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  my $c = $str =~ s/\b($regex)\b/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  $c += $str =~ s/([.?]\s*However)/\x{EFFF}$strunk_color$1$def_color\x{EFFF}/g;
+  return $c;
 }
 
 
