@@ -19,7 +19,7 @@ errors across comments are
 %passive voice below
 marked
 for various reasons, this should be line 21
-the next break should be colored.
+the next break should be colored. as yet
 However, it is not detected because of the passive voice on line 22.
  However, this one is. And the color wraps incorrectly.
 

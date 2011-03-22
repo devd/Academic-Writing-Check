@@ -56,5 +56,6 @@ into awc someday):
 
 And to put it all in perspective, [Stephen Fry's monologue on Language](http://www.youtube.com/watch?v=J7E-aoXLZGY)
 
-
+Tip: If you want to pipe the output, less -R is useful to maintain the
+colors.
 
