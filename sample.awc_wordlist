@@ -1,0 +1,29 @@
+# It's JavaScript
+Javascript
+javascript
+# Sample case errors ,again thanks to Daniel
+faraday
+bloom filter
+#It's Wi-Fi 
+wifi
+WiFi
+Wifi
+wi-fi
+Wi-fi
+#bad Hertz units, from Daniel
+K[Hh][zZ]
+m[Hh][zZ]
+g[Hh][zZ]
+t[Hh][zZ]
+[kMGT]hz
+[kMGT]HZ
+[kMGT]hZ
+# Don't try to use regex unless necessary: I am not sure if arbitrary regexes will work
+#
+#
+# common spellcheck errors : 
+# this might be get out of user word list and become default if 
+# there are more examples
+# Big Thanks to Daniel Halperin https://github.com/dhalperi/
+(?:\w+er|more|less)\s+that
+(?:more|less|fewer)\s+\w*\s+that

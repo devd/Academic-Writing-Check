@@ -10,9 +10,8 @@ use strict ;
 use warnings;
 use Getopt::Long;
 
-my @switch_list = ('passive','dups','weasel','abbr','typography','strunk');
+my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','user');
 my %options= map {$_=>1} @switch_list;
-
 Getopt::Long::Configure('pass_through');
 GetOptions( \%options, 'd');
 if($options{'d'}){
@@ -20,14 +19,15 @@ if($options{'d'}){
   delete $options{'d'};
 }
 Getopt::Long::Configure('no_pass_through');
-GetOptions( \%options, 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
-my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$def_color) = (
+GetOptions( \%options, 'wordfile=s', 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
+my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$user_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
 getBashColor($options{'typography_color'},'yellow'),
 getBashColor($options{'weasel_color'},'green'),
 getBashColor($options{'dup_color'},'purple'),
 getBashColor($options{'abbr_color'},'blue'),
 getBashColor($options{'strunk_color'},'cyan'),
+getBashColor($options{'user_color'},'darkyellow'),
 getBashColor($options{'def_color'},'def'),
 );
 #intialize default color
@@ -36,7 +36,7 @@ my $filename="";
 my @files=@ARGV;
 $options{'diffmode'}=0;
 if(not @files){
-  #There are no files switch to diff output handling
+  #There are no files. Switch to diff output handling
   $options{'diffmode'}=1;
 }
   
@@ -55,6 +55,28 @@ my $LevelN;
 if($] < 5.010){
   $LevelN = qr/ (?> [^{}]+ | \{ (??{ $LevelN }) \} )* /x;
 }
+
+
+my @user_words=();
+foreach my $filename ( $ENV{'HOME'}.'/.awc_wordlist', 'awc_wordlist' ,  $options{'wordfile'} ){
+  next unless $filename;
+  if(-e $filename){
+  open my $fh,'<',$filename or die "Error opening $filename";
+  while(<$fh>){ 
+    next if m/^#/;
+    chomp; 
+    next unless $_;
+    s/\s+/\\s+/g; 
+    push @user_words,$_;
+    }
+  }else{
+    if($options{'wordfile'} and ($filename eq $options{'wordfile'})){
+      die "Couldn't find user defined wordfile ".$options{'wordfile'};
+    }
+
+  }
+}
+
 
 while(($filename=shift @files)){
     {
@@ -82,6 +104,7 @@ while(($filename=shift @files)){
     $count += fixWeasel() if $options{'weasel'};
     $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
+    $count += fixUserWords() if $options{'user'};
     }
     next unless $count;
     my $linenum=0;
@@ -114,6 +137,7 @@ print $weasel_color,'WEASEL WORDS',"   " if $options{'weasel'};
 print $dup_color,'DUPLICATES',"   " if $options{'dups'};
 print $strunk_color,'STRUNK AND WHITE',"   " if $options{'strunk'};
 print $abbr_color,'ABBR' if $options{'abbr'};
+print $user_color,'USER' if $options{'user'};
 print "\n";
 
 #reset to terminal default
@@ -280,4 +304,11 @@ sub getBashColor{
   my %color_hash=map {$_ => $i++} ('black','red','green','yellow','blue','purple','cyan','white');
   return getBashColor($_[1]||'def') unless exists $color_hash{$color};
   return "\e[".($shade eq "dark" ? '0' : '1').';3'.$color_hash{$color}.'m';
+}
+
+
+ sub fixUserWords{
+   my $regex = '\b((?:'.join(')|(?:',@user_words).'))\b';
+   #non case-sensitive
+   return $str =~ s/$regex/\x{EFFF}$user_color$1$def_color\x{EFFF}/go;
 }
