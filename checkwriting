@@ -104,7 +104,7 @@ while(($filename=shift @files)){
     $count += fixWeasel() if $options{'weasel'};
     $count += fixStrunk() if $options{'strunk'};
     $count += fixAbbr() if $options{'abbr'};
-    $count += fixUserWords() if $options{'user'};
+    $count += fixUserWords() if $options{'user'} and @user_words;
     }
     next unless $count;
     my $linenum=0;
