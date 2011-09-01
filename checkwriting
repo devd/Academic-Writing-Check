@@ -236,7 +236,7 @@ sub fixTypography{
   #Latex assumes a '.' ends a sentence unless its after a uppercase letter
   #http://www.ece.ucdavis.edu/~jowens/commonerrors.html
   $c += ($str =~ s/\b((?:et\sal\.|i\.e\.) )/\x{EFFF}$typography_color$1<slash escape the space>$def_color\x{EFFF}/og);
-  $c += ($str =~ s/\b([A-Z]\.)/\x{EFFF}$typography_color$1<add a \\\@>$def_color\x{EFFF}/og);
+  $c += ($str =~ s/([^\s]*[A-Z]\.)/\x{EFFF}$typography_color$1<add a \\\@>$def_color\x{EFFF}/og);
   $c += ($str =~ s/(\s\d{4,}\b)/\x{EFFF}$typography_color$1$def_color\x{EFFF}/go) if $options{'number'};
   #URLs should be typeset with \url
   $c += fixURL();
