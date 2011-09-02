@@ -2,6 +2,7 @@ this is an example test file for the
 the academic writing scripts. It is hoped that
 all these lines shall be clearly printed.
 i.e et al.
+Dev, et al.\ should not have a comma.
 http://www.google.com/
 \url{http://not.this.com}
 3443 marked
@@ -19,3 +20,4 @@ errors across comments are
 %passive voice below
 marked
 for various reasons, this should be line 21
+This ends in ACRONYM. It needs a slash-at.
