@@ -136,7 +136,7 @@ print $typography_color,'TYPOGRAPHY ERRORS',"   " if $options{'typography'};
 print $weasel_color,'WEASEL WORDS',"   " if $options{'weasel'};
 print $dup_color,'DUPLICATES',"   " if $options{'dups'};
 print $strunk_color,'STRUNK AND WHITE',"   " if $options{'strunk'};
-print $abbr_color,'ABBR' if $options{'abbr'};
+print $abbr_color,'ABBR',"   " if $options{'abbr'};
 print $user_color,'USER' if $options{'user'};
 print "\n";
 
