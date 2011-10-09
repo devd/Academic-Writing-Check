@@ -52,7 +52,7 @@ into awc someday):
 * [Effective Scientific Electronic Publishing](http://www.cl.cam.ac.uk/~mgk25/publ-tips/) - Markus Kuhn, Cambridge
 * Strunk and White is now [free online](http://www.bartleby.com/141/strunk1.html)
 * [How to write a great research paper](http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf) - Simon Peyton Jones, MSR Cambridge
-* [Everyone Can Write Better (and You Are No Exception)](http://homepas.ed.ac.uk/martinc/msc/doc/hc.pdf) - Herbert H. Clark
+* [Everyone Can Write Better (and You Are No Exception)](http://homepages.ed.ac.uk/martinc/msc/doc/hc.pdf) - Herbert H. Clark
 
 
 And to put it all in perspective, [Stephen Fry's monologue on Language](http://www.youtube.com/watch?v=J7E-aoXLZGY)
