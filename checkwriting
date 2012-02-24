@@ -86,9 +86,7 @@ while(($filename=shift @files)){
     close($fh);
     }
     if($options{'diffmode'}){
-      $str =~ s/^-.*$//mg;
-      $str =~ s/^\+//mg;
-      $str =~ s/^@@.*$//mg;
+      $str=~ s/^(?:(?:[^\+].*)|(?:\+(?:(?:\+.*)|(.*))))$/$1||''/meg;
       $filename='diff_additions';
     }
     $str =~ s/([^\\])%.*$/$1/mg ;
