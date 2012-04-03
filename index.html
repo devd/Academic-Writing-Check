@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Academic Writing Check by devd</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Academic Writing Check</h1>
+        <p>Check for typical errors in LATEX files</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/devd/Academic-Writing-Check" class="button fork"><strong>Fork On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/devd/Academic-Writing-Check/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/devd/Academic-Writing-Check/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h2>Academic Writing Check</h2>
+
+<p>This script attempts to find common errors in academic writings. This is focused only on academic writing in latex, but most things should work on any ASCII text. We don't attempt to do any sort of latex parsing currently(maybe someday).</p>
+
+<p>Currently the script tries to find the following issues:    </p>
+
+<ul>
+<li> <strong>passive</strong> : Passive voice, colored red by default.</li>
+<li> <strong>dups</strong>    : Duplicate words: 'the the' across 2 lines, colored purple by default</li>
+<li> <strong>weasel</strong>  : Weasel words like {various, many}, colored green by default</li>
+<li> <strong>abbr</strong>    : Wrong abbreviations like i.e and et. al., colored blue by default</li>
+<li> <strong>typography</strong>: Common typography errors like \footnotes before a punctuation, numbers without comma, URLs not typeset with \url, and others. colored yellow default</li>
+<li>
+<strong>strunk</strong> : Issues that Strunk and White refer to in their classic. Currently, only has a sublist of words from Chapter IV. colored cyan by default.</li>
+</ul><p>The script accepts options via the standard UNIX style:</p>
+
+<pre><code> --no-{option} 
+</code></pre>
+
+<p>where {option} is one of the things in <strong>bold</strong> in the above list. The script also ignores lines beginning with a % as a helper. It outputs filename and line number with the offending issues marked in color.</p>
+
+<p>You can also send in a -d to disable all checks. Checks will need to be explicitly enabled. Thus -d --abbr will only look for abbr errors.</p>
+
+<p>Colors can be specified with </p>
+
+<pre><code>--{option}_color={color} --def_color={color}
+</code></pre>
+
+<p>where {option} is one of the options above, and {color} is one of</p>
+
+<pre><code>('black','red','green','yellow','blue','purple','cyan','white').
+</code></pre>
+
+<p>You can also prefix the color name with dark to get a darker shade.
+The def_color option sets the color of unmarked text.</p>
+
+<p>Thus, </p>
+
+<pre><code>--passive_color=darkgreen
+</code></pre>
+
+<p>will mark passive words with dark green color.</p>
+
+<p>The script can be called in multiple ways:</p>
+
+<ul>
+<li> ./checkwriting &lt;files&gt;</li>
+<li> ./checkwriting &lt;directory&gt; : In this case the script uses all *.tex and *.bbl files in the directory. If it doesn't find any, then it waits for input from stdin.</li>
+<li> ./checkwriting : With no files, the script waits for diff style input on STDIN. I use it this way often. Say, you made some changes to the manuscript. Just do git diff | ./checkwriting and you only have to look at new errors.</li>
+</ul><p>The original idea and code for this came from Matt Might's <a href="http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/">blog</a></p>
+
+<p>Here are some other links that might be useful (and might be integrated
+into awc someday):</p>
+
+<ul>
+<li>
+<a href="http://www.ece.ucdavis.edu/~jowens/commonerrors.html">Common Errors in Technical Writing</a> - John Owens , UC Davis</li>
+<li>
+<a href="http://www.cl.cam.ac.uk/~mgk25/publ-tips/">Effective Scientific Electronic Publishing</a> - Markus Kuhn, Cambridge</li>
+<li>Strunk and White is now <a href="http://www.bartleby.com/141/strunk1.html">free online</a>
+</li>
+<li>
+<a href="http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf">How to write a great research paper</a> - Simon Peyton Jones, MSR Cambridge</li>
+<li>
+<a href="http://homepages.ed.ac.uk/martinc/msc/doc/hc.pdf">Everyone Can Write Better (and You Are No Exception)</a> - Herbert H. Clark</li>
+</ul><p>And to put it all in perspective, <a href="http://www.youtube.com/watch?v=J7E-aoXLZGY">Stephen Fry's monologue on Language</a></p>
+
+<p>Tip: If you want to pipe the output, less -R is useful to maintain the
+colors.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/devd">devd</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
