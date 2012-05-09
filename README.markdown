@@ -1,5 +1,7 @@
 ## Academic Writing Check ##
 
+### Introduction ###
+
 This script attempts to find common errors in academic writings. This is focused only on academic writing in latex, but most things should work on any ASCII text. We don't attempt to do any sort of latex parsing currently(maybe someday).
 
 Currently the script tries to find the following issues:    
@@ -43,6 +45,16 @@ The script can be called in multiple ways:
 *  ./checkwriting &lt;directory&gt; : In this case the script uses all &#42;.tex and &#42;.bbl files in the directory. If it doesn't find any, then it waits for input from stdin.
 *  ./checkwriting : With no files, the script waits for diff style input on STDIN. I use it this way often. Say, you made some changes to the manuscript. Just do git diff | ./checkwriting and you only have to look at new errors.
 
+### Notes on the warnings ###
+
+Some of the warnings are obvious, some aren't. The non-obvious ones are discussed here.
+
+* The typography warning: "add a \@" is to let LaTeX know when its end of line.
+  LaTeX assumes that a period ends a sentence, unless it follows a capital
+letter in which case it assumes that it is an abbreviation. So to let LaTex know that 'iOS.' is really end of sentence, write 'iOS\@.'
+
+
+### Acks ###
 The original idea and code for this came from Matt Might's [blog](http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/)
 
 Here are some other links that might be useful (and might be integrated
