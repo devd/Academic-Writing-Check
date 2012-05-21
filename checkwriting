@@ -201,7 +201,7 @@ sub fixPassive{
 
 sub fixWeasel{
  #TODO add better support for wordfile
- my $regex ='\b(almost|many|various|very|fairly|several|extremely|exceedingly|quite|remarkably|few|surprisingly|mostly|largely|huge|tiny|((are|is) a number)|excellent|interestingly|significantly|substantially|clearly|vast|relatively|completely)\b';
+ my $regex ='\b(might|appears\s+to\s+be|it\s+is\s+easy\s+to\s+see|theoretically|actual|In\s+this\s+paper|almost|many|various|very|fairly|several|extremely|exceedingly|quite|remarkably|few|surprisingly|mostly|largely|huge|tiny|((are|is) a number)|excellent|interestingly|significantly|substantially|clearly|vast|relatively|completely)\b';
  return $str =~ s/$regex/\x{EFFF}$weasel_color$1$def_color\x{EFFF}/goi;
 }
 
