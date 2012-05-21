@@ -64,6 +64,7 @@ into awc someday):
 * Strunk and White is now [free online](http://www.bartleby.com/141/strunk1.html)
 * [How to write a great research paper](http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf) - Simon Peyton Jones, MSR Cambridge
 * [Everyone Can Write Better (and You Are No Exception)](http://homepages.ed.ac.uk/martinc/msc/doc/hc.pdf) - Herbert H. Clark
+* [How to do Good Research and Get it published](http://www.cs.ucr.edu/~eamonn/Keogh_SIGKDD09_tutorial.pdf)
 
 
 And to put it all in perspective, [Stephen Fry's monologue on Language](http://www.youtube.com/watch?v=J7E-aoXLZGY)
