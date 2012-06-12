@@ -85,6 +85,11 @@ while(($filename=shift @files)){
     $str=<$fh>;
     close($fh);
     }
+
+    #remove lstlistings from the check
+    $str =~ s/\\begin\{lstlisting\}.*?\\end\{lstlisting\}//sg;
+
+
     if($options{'diffmode'}){
       $str=~ s/^(?:(?:[^\+].*)|(?:\+(?:(?:\+.*)|(.*))))$/$1||''/meg;
       $filename='diff_additions';
