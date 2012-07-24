@@ -1,4 +1,3 @@
-
 ## Introduction ##
 
 This script attempts to find common errors in academic writings. This is focused only on academic writing in latex, but most things should work on any ASCII text. We don't attempt to do any sort of latex parsing currently(maybe someday).
@@ -65,6 +64,7 @@ into awc someday):
 * [How to write a great research paper](http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf) - Simon Peyton Jones, MSR Cambridge
 * [Everyone Can Write Better (and You Are No Exception)](http://homepages.ed.ac.uk/martinc/msc/doc/hc.pdf) - Herbert H. Clark
 * [How to do Good Research and Get it published](http://www.cs.ucr.edu/~eamonn/Keogh_SIGKDD09_tutorial.pdf)
+* [Writer's Diet Test](http://www.writersdiet.com/WT.php)
 
 
 And to put it all in perspective, [Stephen Fry's monologue on Language](http://www.youtube.com/watch?v=J7E-aoXLZGY)
