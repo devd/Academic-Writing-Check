@@ -12,13 +12,19 @@ use Getopt::Long;
 
 my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','user');
 my %options= map {$_=>1} @switch_list;
+my $vimmode = 0;
 Getopt::Long::Configure('pass_through');
-GetOptions( \%options, 'd');
+GetOptions( \%options, 'd','v');
+if($options{'v'}){
+  $vimmode=1;
+}
+
 if($options{'d'}){
   $_ = 0 foreach values %options;
   delete $options{'d'};
 }
 Getopt::Long::Configure('no_pass_through');
+
 GetOptions( \%options, 'wordfile=s', 'def_color=s',map {("$_!",$_."_color=s")} @switch_list);
 my ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$user_color,$def_color) = (
 getBashColor($options{'passive_color'},'red'),
@@ -30,6 +36,19 @@ getBashColor($options{'strunk_color'},'cyan'),
 getBashColor($options{'user_color'},'darkyellow'),
 getBashColor($options{'def_color'},'def'),
 );
+
+if ($vimmode) {
+  ($passive_color,$typography_color,$weasel_color,$dup_color,$abbr_color,$strunk_color,$user_color,$def_color) = (
+    '**',
+    '**',
+    '**',
+    '**',
+    '**',
+    '**',
+    '**',
+    '**',
+  );
+}
 #intialize default color
 print $def_color;
 my $filename="";
@@ -124,7 +143,7 @@ while(($filename=shift @files)){
       # I am pretty sure this is ok since the % would prevent match across lines
       # this is moot if ignorecomment is turned on
       next if $line =~ m/^\s*%/;
-      print "$filename:$linenum: $line";      
+      print "\"$filename\":$linenum: $line";      
       $extra =1 ;
     }
     close $fh;
