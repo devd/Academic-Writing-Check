@@ -7,8 +7,10 @@ me.
 * First, install [Syntastic](http://www.vim.org/scripts/script.php?script_id=2736)
 * Overwrite the default tex syntax checker with AWC. There is a tex.vim present in this repository that you can use directly.
 
+```bash
     wget https://raw.github.com/devd/Academic-Writing-Check/master/sample.awc_wordlist ~/.vim/bundle/syntastic/syntax_checkers/tex.vim 
     # Note that this will overwrite the default lacheck syntax checker.
+```
 
 * Make sure that the checkwriting file is executable and exists somewhere in your $PATH
 
