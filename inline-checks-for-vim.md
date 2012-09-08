@@ -15,7 +15,7 @@ me.
 
 Syntastic will mark the erroneous lines with red double arrow at the left, and scrolling to
 that line should show the error at the bottom of the screen, with the errors
-marked with a double asterisk.
+marked with a double asterisk. Note that you have to save the file once to get syntastic running.
 
 If someone knows how to make vim show the errors in color, that would be great!
 
