@@ -8,7 +8,7 @@ me.
 * Overwrite the default tex syntax checker with AWC. There is a tex.vim present in this repository that you can use directly.
 
 ```bash
-    wget https://raw.github.com/devd/Academic-Writing-Check/master/sample.awc_wordlist ~/.vim/bundle/syntastic/syntax_checkers/tex.vim 
+    wget https://raw.github.com/devd/Academic-Writing-Check/master/tex.vim ~/.vim/bundle/syntastic/syntax_checkers/tex.vim 
     # Note that this will overwrite the default lacheck syntax checker.
 ```
 
