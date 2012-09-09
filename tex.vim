@@ -23,6 +23,6 @@ endif
 
 function! SyntaxCheckers_tex_GetLocList()
     let makeprg = 'checkwriting -v '.shellescape(expand('%'))
-    let errorformat =  '%-G** %f:,%E"%f":%l: %m'
+    let errorformat =  '%E%f:%l: %m'
     return SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat })
 endfunction
