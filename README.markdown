@@ -1,4 +1,9 @@
+
+### NEW 
+[Basic Vim integration support](https://github.com/devd/Academic-Writing-Check/blob/master/inline-checks-for-vim.md)
+
 ## Introduction ##
+
 
 This script attempts to find common errors in academic writings. This is focused only on academic writing in latex, but most things should work on any ASCII text. We don't attempt to do any sort of latex parsing currently(maybe someday).
 
