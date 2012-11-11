@@ -221,7 +221,7 @@ sub fixPassive{
 "withheld","withstood","wrung",
 "written");
   my $regex = '\b(am|are|were|being|is|been|was|be)\b(\s+)(\w+ed|('.join('|',@irregulars).'))\b';
-  return $str =~ s/$regex/\x{EFFF}$passive_color$1$def_color$2$passive_color$3$def_color\x{EFFF}/goi;
+  return $str =~ s/$regex/\x{EFFF}$def_color$passive_color$1$def_color$2$passive_color$3$def_color\x{EFFF}/goi;
 }
 
 sub fixWeasel{
