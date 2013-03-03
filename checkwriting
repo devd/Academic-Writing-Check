@@ -106,7 +106,9 @@ while(($filename=shift @files)){
     }
 
     #remove lstlistings from the check
-    $str =~ s/\\begin\{lstlisting\}.*?\\end\{lstlisting\}//sg;
+    #TODO: remove lstlistings, but replace each line with a blank line
+    # so that line numbers don't get screwed up
+    #$str =~ s/\\begin\{lstlisting\}.*?\\end\{lstlisting\}//sg;
 
 
     if($options{'diffmode'}){
