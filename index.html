@@ -1,46 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Academic Writing Check by devd</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Academic Writing Check : Check for typical errors in LATEX files" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Academic Writing Check</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Academic Writing Check</h1>
-        <p>Check for typical errors in LATEX files</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/devd/Academic-Writing-Check">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Academic Writing Check</h1>
+          <h2 id="project_tagline">Check for typical errors in LATEX files</h2>
 
-        <a href="https://github.com/devd/Academic-Writing-Check" class="button fork"><strong>Fork On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/devd/Academic-Writing-Check/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/devd/Academic-Writing-Check/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/devd/Academic-Writing-Check/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/devd/Academic-Writing-Check/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-      </div><!-- end banner -->
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a name="new" class="anchor" href="#new"><span class="octicon octicon-link"></span></a>NEW</h3>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
-        <h2>Academic Writing Check</h2>
+<p><a href="https://github.com/devd/Academic-Writing-Check/blob/master/inline-checks-for-vim.md">Basic Vim integration support</a></p>
+
+<p><a href="https://github.com/devd/Academic-Writing-Check/blob/master/windows.md">HOWTO run on Windows</a></p>
+
+<h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>This script attempts to find common errors in academic writings. This is focused only on academic writing in latex, but most things should work on any ASCII text. We don't attempt to do any sort of latex parsing currently(maybe someday).</p>
 
@@ -89,32 +88,52 @@ The def_color option sets the color of unmarked text.</p>
 <li> ./checkwriting &lt;files&gt;</li>
 <li> ./checkwriting &lt;directory&gt; : In this case the script uses all *.tex and *.bbl files in the directory. If it doesn't find any, then it waits for input from stdin.</li>
 <li> ./checkwriting : With no files, the script waits for diff style input on STDIN. I use it this way often. Say, you made some changes to the manuscript. Just do git diff | ./checkwriting and you only have to look at new errors.</li>
-</ul><p>The original idea and code for this came from Matt Might's <a href="http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/">blog</a></p>
+</ul><h2>
+<a name="notes-on-the-warnings" class="anchor" href="#notes-on-the-warnings"><span class="octicon octicon-link"></span></a>Notes on the warnings</h2>
+
+<p>Some of the warnings are obvious, some aren't. The non-obvious ones are discussed here.</p>
+
+<ul>
+<li>The typography warning: "add a \@" is to let LaTeX know when its end of line.
+LaTeX assumes that a period ends a sentence, unless it follows a capital
+letter in which case it assumes that it is an abbreviation. So to let LaTex know that 'iOS.' is really end of sentence, write 'iOS\@.'</li>
+</ul><h2>
+<a name="acks" class="anchor" href="#acks"><span class="octicon octicon-link"></span></a>Acks</h2>
+
+<p>The original idea and code for this came from Matt Might's <a href="http://matt.might.net/articles/shell-scripts-for-passive-voice-weasel-words-duplicates/">blog</a></p>
 
 <p>Here are some other links that might be useful (and might be integrated
 into awc someday):</p>
 
 <ul>
 <li>
-<a href="http://www.ece.ucdavis.edu/~jowens/commonerrors.html">Common Errors in Technical Writing</a> - John Owens , UC Davis</li>
+<a href="http://www.ece.ucdavis.edu/%7Ejowens/commonerrors.html">Common Errors in Technical Writing</a> - John Owens , UC Davis</li>
 <li>
-<a href="http://www.cl.cam.ac.uk/~mgk25/publ-tips/">Effective Scientific Electronic Publishing</a> - Markus Kuhn, Cambridge</li>
+<a href="http://www.cl.cam.ac.uk/%7Emgk25/publ-tips/">Effective Scientific Electronic Publishing</a> - Markus Kuhn, Cambridge</li>
 <li>Strunk and White is now <a href="http://www.bartleby.com/141/strunk1.html">free online</a>
 </li>
 <li>
-<a href="http://research.microsoft.com/~simonpj/papers/giving-a-talk/writing-a-paper-slides.pdf">How to write a great research paper</a> - Simon Peyton Jones, MSR Cambridge</li>
+<a href="http://research.microsoft.com/%7Esimonpj/papers/giving-a-talk/writing-a-paper-slides.pdf">How to write a great research paper</a> - Simon Peyton Jones, MSR Cambridge</li>
 <li>
 <a href="http://homepages.ed.ac.uk/martinc/msc/doc/hc.pdf">Everyone Can Write Better (and You Are No Exception)</a> - Herbert H. Clark</li>
+<li><a href="http://www.cs.ucr.edu/%7Eeamonn/Keogh_SIGKDD09_tutorial.pdf">How to do Good Research and Get it published</a></li>
+<li><a href="http://www.writersdiet.com/WT.php">Writer's Diet Test</a></li>
 </ul><p>And to put it all in perspective, <a href="http://www.youtube.com/watch?v=J7E-aoXLZGY">Stephen Fry's monologue on Language</a></p>
 
 <p>Tip: If you want to pipe the output, less -R is useful to maintain the
 colors.</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/devd">devd</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Academic Writing Check maintained by <a href="https://github.com/devd">devd</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+
+    
+
   </body>
 </html>
