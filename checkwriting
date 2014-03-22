@@ -9,6 +9,7 @@
 use strict ;
 use warnings;
 use Getopt::Long;
+use utf8;
 
 my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','user');
 my %options= map {$_=>1} @switch_list;
@@ -136,7 +137,8 @@ while(($filename=shift @files)){
         $filename = $1 ;
     }
     my $extra="";
-    open my $fh,'<:utf8',\$str or die $!;
+    utf8::encode($str);
+    open my $fh,'<:encoding(utf8)',\$str or die $!;
     while(my $line= <$fh>){
       $linenum++;
       next unless $line =~ m/\x{EFFF}/;
