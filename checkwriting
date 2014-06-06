@@ -9,6 +9,7 @@
 use strict ;
 use warnings;
 use Getopt::Long;
+use List::Util qw(sum);
 use utf8;
 
 my @switch_list = ('passive','dups','weasel','abbr','typography','strunk','user');
@@ -117,21 +118,23 @@ while(($filename=shift @files)){
       $filename='diff_additions';
     }
     $str =~ s/([^\\])%.*$/$1/mg ;
-    my $count=0;
+    my %count=();
     if($filename =~ m/bbl$/){
       #for bbl files only look for URL errors
-      $count += fixURL() if $options{'typography'};
+      $count{'typography'} += fixURL() if $options{'typography'};
     }else{
-    #spaces since \b on both sides had too many false positives like -,:
-    $count += fixTypography() if $options{'typography'};
-    $count += fixPassive() if $options{'passive'};
-    $count += fixDups() if $options{'dups'};
-    $count += fixWeasel() if $options{'weasel'};
-    $count += fixStrunk() if $options{'strunk'};
-    $count += fixAbbr() if $options{'abbr'};
-    $count += fixUserWords() if $options{'user'} and @user_words;
+      #TODO there is a much better way to do this dispatch
+      #by keeping the function refs keyed by the same key as
+      #options and count.
+      $count{'typography'} = fixTypography() if $options{'typography'};
+      $count{'passive'} = fixPassive() if $options{'passive'};
+      $count{'dups'} = fixDups() if $options{'dups'};
+      $count{'weasel'} = fixWeasel() if $options{'weasel'};
+      $count{'strunk'} = fixStrunk() if $options{'strunk'};
+      $count{'abbr'} = fixAbbr() if $options{'abbr'};
+      $count{'user'} = fixUserWords() if $options{'user'} and @user_words;
     }
-    next unless $count;
+    next unless sum(values %count);
     my $linenum=0;
     if($filename =~ m/([^\/]*)$/){
         $filename = $1 ;
@@ -151,21 +154,22 @@ while(($filename=shift @files)){
       $extra =1 ;
     }
     close $fh;
+    unless ($vimmode) {
+      print "\n";
+      print $passive_color,$count{'passive'}||0,' PASSIVE VOICE',"   " if $options{'passive'};
+      print $typography_color,$count{'typography'}||0,' TYPOGRAPHY ERRORS',"   " if $options{'typography'};
+      print $weasel_color,$count{'weasel'}||0,' WEASEL WORDS',"   " if $options{'weasel'};
+      print $dup_color,$count{'dups'}||0,' DUPLICATES',"   " if $options{'dups'};
+      print $strunk_color,$count{'strunk'}||0,' STRUNK AND WHITE',"   " if $options{'strunk'};
+      print $abbr_color,$count{'abbr'}||0,' ABBR',"   " if $options{'abbr'};
+      print $user_color,$count{'user'}||0,' USER' if $options{'user'};
+      print "\n";
+    }
     # some spacing from the new file
     print "\n" if @files and $extra;
     
 }
 
-exit if $vimmode;
-print "\n";
-print $passive_color,'PASSIVE VOICE',"   " if $options{'passive'};
-print $typography_color,'TYPOGRAPHY ERRORS',"   " if $options{'typography'};
-print $weasel_color,'WEASEL WORDS',"   " if $options{'weasel'};
-print $dup_color,'DUPLICATES',"   " if $options{'dups'};
-print $strunk_color,'STRUNK AND WHITE',"   " if $options{'strunk'};
-print $abbr_color,'ABBR',"   " if $options{'abbr'};
-print $user_color,'USER' if $options{'user'};
-print "\n";
 
 #reset to terminal default
 print getBashColor('def');
