@@ -163,7 +163,7 @@ while(($filename=shift @files)){
       print $strunk_color,$count{'strunk'}||0,' STRUNK AND WHITE',"   " if $options{'strunk'};
       print $abbr_color,$count{'abbr'}||0,' ABBR',"   " if $options{'abbr'};
       print $user_color,$count{'user'}||0,' USER' if $options{'user'};
-      print "\n";
+      print $def_color,"\n";
     }
     # some spacing from the new file
     print "\n" if @files and $extra;
