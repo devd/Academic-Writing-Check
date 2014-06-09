@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# Author : Devdatta Akhawe  http://www.cs.berkeley.edu/~devdatta 
+# Author : Devdatta Akhawe  http://www.cs.berkeley.edu/~devdatta
 #
 
 # Original Idea and list of words by Matthew Might
@@ -60,7 +60,7 @@ if(not @files){
   #There are no files. Switch to diff output handling
   $options{'diffmode'}=1;
 }
-  
+
 if($#files==0 and -d $files[0]){
   my $dirname=shift @files;
   $dirname =~ s/\/$//;
@@ -83,11 +83,11 @@ foreach my $filename ( $ENV{'HOME'}.'/.awc_wordlist', 'awc_wordlist' ,  $options
   next unless $filename;
   if(-e $filename){
   open my $fh,'<',$filename or die "Error opening $filename";
-  while(<$fh>){ 
+  while(<$fh>){
     next if m/^#/;
-    chomp; 
+    chomp;
     next unless $_;
-    s/\s+/\\s+/g; 
+    s/\s+/\\s+/g;
     push @user_words,$_;
     }
   }else{
@@ -167,7 +167,7 @@ while(($filename=shift @files)){
     }
     # some spacing from the new file
     print "\n" if @files and $extra;
-    
+
 }
 
 
@@ -277,11 +277,11 @@ sub fixTypography{
 
 sub fixStrunkWords{
   my $regex=qr{ #initially from the  chapter IV (
-and\/or | anticipate | as \s good \s or \s better \s than | as \s yet | 
-as \s to \s whether | certainly | factor | feature 
-| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaningful(?:ly)? | nice(?:ly)? | 
+and\/or | anticipate | as \s good \s or \s better \s than | as \s yet |
+as \s to \s whether | certainly | factor | feature
+| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaningful(?:ly)? | nice(?:ly)? |
 one \s of \s the \s most| respective(?:ly)? |
-(?:most|very) \s unique | 
+(?:most|very) \s unique |
 utilize | very  | the fact that |
 rather | little | pretty #from the last chapter
 }x;
