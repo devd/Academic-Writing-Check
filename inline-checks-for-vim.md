@@ -6,12 +6,8 @@ me. Despite of the hacky nature, I find this extremely useful, and strongly
 urge you to try it out.
 
 * First, install [Syntastic](http://www.vim.org/scripts/script.php?script_id=2736)
-* Overwrite the default tex syntax checker with AWC. There is a tex.vim present in this repository that you can use directly.
 
-```bash
-    wget https://raw.github.com/devd/Academic-Writing-Check/master/tex.vim ~/.vim/bundle/syntastic/syntax_checkers/tex.vim 
-    # Note that this will overwrite the default lacheck syntax checker.
-```
+* Put checkwriting.vim (from this repo) in ~/.vim/bundle/syntastic/syntax_checkers/tex/
 
 * Make sure that the checkwriting file is executable and exists somewhere in your $PATH
 

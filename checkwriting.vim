@@ -11,18 +11,19 @@
 "============================================================================
 "
 " Modified By Devdatta Akhawe to use checkwriting. http://is.gd/awcheck
-if exists("loaded_tex_syntax_checker")
+if exists("g:loaded_tex_checkwriting_checker")
     finish
 endif
-let loaded_tex_syntax_checker = 1
+let g:loaded_tex_checkwriting_checker= 1
 
-"bail if the user doesnt have lacheck installed
-if !executable("checkwriting")
-    finish
-endif
-
-function! SyntaxCheckers_tex_GetLocList()
-    let makeprg = 'checkwriting -v '.shellescape(expand('%'))
+function! SyntaxCheckers_tex_checkwriting_GetLocList() dict
+    let makeprg = self.makeprgBuild({'exe': '/home/devdatta/bin/bin/checkwriting', 'args': '-v' })
+    
     let errorformat =  '%E%f:%l: %m'
+
     return SyntasticMake({ 'makeprg': makeprg, 'errorformat': errorformat })
 endfunction
+
+call g:SyntasticRegistry.CreateAndRegisterChecker({
+    \ 'filetype': 'tex',
+    \ 'name': 'checkwriting'})
