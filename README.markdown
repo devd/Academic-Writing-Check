@@ -2,6 +2,8 @@
 ### NEW 
 [Basic Vim integration support](https://github.com/devd/Academic-Writing-Check/blob/master/inline-checks-for-vim.md)
 
+[Emacs Integration](https://github.com/devd/Academic-Writing-Check/blob/master/use-with-emacs.md)
+
 [HOWTO run on Windows](https://github.com/devd/Academic-Writing-Check/blob/master/windows.md)
 
 ## Introduction ##
