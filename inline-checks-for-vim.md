@@ -8,8 +8,7 @@ urge you to try it out.
 * First, install [Syntastic](http://www.vim.org/scripts/script.php?script_id=2736)
 
 * Put checkwriting.vim (from this repo) in ~/.vim/bundle/syntastic/syntax_checkers/tex/
-
-* Make sure that the checkwriting file is executable and exists somewhere in your $PATH
+* Update checkwriting.vim [exe path](https://github.com/devd/Academic-Writing-Check/blob/master/checkwriting.vim#L20) to checkwriting to wherever you have put the checkwriting executable
 
 
 Syntastic will mark the erroneous lines with red double arrow at the left, and scrolling to
