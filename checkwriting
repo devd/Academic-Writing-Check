@@ -279,7 +279,7 @@ sub fixStrunkWords{
   my $regex=qr{ #initially from the  chapter IV (
 and\/or | anticipate | as \s good \s or \s better \s than | as \s yet |
 as \s to \s whether | certainly | factor | feature
-| finalize | importantly | insightful | in[ ]terms[ ]off | interesting(?:ly)? | irregardless | meaningful(?:ly)? | nice(?:ly)? |
+| finalize | importantly | insightful | in[ ]terms[ ]of | interesting(?:ly)? | irregardless | meaningful(?:ly)? | nice(?:ly)? |
 one \s of \s the \s most| respective(?:ly)? |
 (?:most|very) \s unique |
 utilize | very  | the fact that |
